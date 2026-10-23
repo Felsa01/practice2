@@ -31,6 +31,7 @@ public class Alquiler {
         this.fechaFin = fechaFin;
     }
 
+    
     public static Alquiler[] obtenerAlquileres() {
         return alquileres; 
     }
@@ -122,6 +123,7 @@ public class Alquiler {
     }
 
     public static void main(String[] args) {
+
         // Crear instancias de Vehiculo y Cliente
         Vehiculo vehiculo1 = new Turismo("ABC123", Categoria.NORMAL, 2020, 5, 400.0);
         Cliente cliente1 = new Cliente("Juan Pérez", "123456789");

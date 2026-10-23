@@ -14,6 +14,8 @@ public abstract class Vehiculo {
     private int annio;
     private boolean disponible;
 
+   
+
     public Vehiculo(String matricula, Categoria categoria, int annio) {
         this.matricula = matricula;
         this.categoria = categoria;
