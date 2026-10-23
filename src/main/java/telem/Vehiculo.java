@@ -20,6 +20,22 @@ public abstract class Vehiculo {
         this.annio = annio;
     }
 
+    
+    /**
+    * En serialización/deserialización: para obtener el tipo de
+    * vehículo (clase) del objeto.
+    * @return El tipo de vehículo (sub-clase) del objeto.
+    */
+    public abstract String getTipo();
+
+
+    /**
+    * Calcula el precio base diario del vehículo según su categoría y tipo.
+    * @return precio base diario del vehículo.
+    */
+    public abstract int getPrecioBase();
+
+
     public String getMatricula() {
         return matricula;
     }

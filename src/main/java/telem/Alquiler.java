@@ -57,6 +57,10 @@ public class Alquiler {
         return fechaFin;
     }
 
+    public String getTipo(){
+    return "Turismo";
+    }
+
     public int calcularPrecioAlquiler(Date fechaInicio, Date fechaFin) {
         int dias = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / (1000 * 60 * 60 * 24));
         return dias * PRECIO_BASE;
