@@ -2,7 +2,8 @@ package telem;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.json.JSONObject;
 
@@ -64,8 +65,55 @@ public class Alquiler {
     }
 
     public int calcularPrecioAlquiler(LocalDate fechaInicio, LocalDate fechaFin) {
-        int dias = (int) ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1; // +1 para incluir el día de inicio
-        return dias * PRECIO_BASE;
+        int dias = calcularDias(fechaInicio, fechaFin);
+        return Math.multiplyExact(dias, vehiculo.getPrecioBase());
+    }
+
+    public double calcularPrecioAlquiler(PoliticasDePrecios politica) {
+        if (politica == null) {
+            throw new IllegalArgumentException("La política de precios es obligatoria.");
+        }
+
+        int dias = calcularDias(fechaInicio, fechaFin);
+        BigDecimal precioBase = BigDecimal.valueOf(vehiculo.getPrecioBase());
+        BigDecimal total;
+
+        switch (politica) {
+            case Normal:
+                total = precioBase.multiply(BigDecimal.valueOf(dias));
+                break;
+            case TemporadaAlta:
+                total = precioBase.multiply(BigDecimal.valueOf(dias))
+                        .multiply(BigDecimal.valueOf(2));
+                break;
+            case Oferton:
+                total = precioBase.multiply(BigDecimal.valueOf(dias))
+                        .multiply(new BigDecimal("0.70"));
+                if (dias > 7) {
+                    total = total.multiply(new BigDecimal("0.90"));
+                }
+                break;
+            case ClienteFrecuente:
+                int diasConDescuento20 = Math.min(dias, 3);
+                int diasConDescuento40 = Math.max(0, dias - 3);
+                total = precioBase.multiply(BigDecimal.valueOf(diasConDescuento20))
+                        .multiply(new BigDecimal("0.80"))
+                        .add(precioBase.multiply(BigDecimal.valueOf(diasConDescuento40))
+                                .multiply(new BigDecimal("0.60")));
+                break;
+            default:
+                throw new IllegalArgumentException("Política de precios no válida.");
+        }
+
+        return total.setScale(2, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    private int calcularDias(LocalDate fechaInicio, LocalDate fechaFin) {
+        if (fechaInicio == null || fechaFin == null || fechaFin.isBefore(fechaInicio)) {
+            throw new IllegalArgumentException("El intervalo de fechas no es válido.");
+        }
+
+        return Math.toIntExact(ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1);
     }
 
     @Override 
