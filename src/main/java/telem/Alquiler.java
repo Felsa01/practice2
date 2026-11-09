@@ -31,7 +31,16 @@ public class Alquiler {
         this.fechaFin = fechaFin;
     }
 
-    
+    //Ejercicio 3: Añadimos un nuevo constructor que recibe un JSON con los atributos de un alquiler.
+    // Aquí nos quedamos con vehiculo, cliente, fechaInicio y fechaFin, que son los atributos de un alquiler.
+    public Alquiler(String jsonString) {
+        JSONObject json = new JSONObject(jsonString);
+        this.vehiculo = FactoriaVehiculos.getVehiculo(json.getJSONObject("vehiculo").toString());
+        this.cliente = FactoriaClientes.getCliente(json.getJSONObject("cliente").toString());
+        this.fechaInicio = LocalDate.parse(json.getString("fechaInicio"));
+        this.fechaFin = LocalDate.parse(json.getString("fechaFin"));
+    }
+
     public static Alquiler[] obtenerAlquileres() {
         return alquileres; 
     }
@@ -59,10 +68,6 @@ public class Alquiler {
 
     public LocalDate getFechaFin() {
         return fechaFin;
-    }
-
-    public String getTipo(){
-    return "Turismo";
     }
 
     public int calcularPrecioAlquiler(LocalDate fechaInicio, LocalDate fechaFin) {

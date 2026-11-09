@@ -16,6 +16,17 @@ public class Cliente {
         this.dni = dni;
     }
 
+
+      // @param jsonString  JSON con los campos "nombre" y "dni".
+    
+    public Cliente(String jsonString) {
+        JSONObject json = new JSONObject(jsonString);
+        this.nombre = json.getString("nombre");
+        this.dni = json.getString("dni");
+    }
+
+
+
     public String getNombre() {
         return nombre;
     }

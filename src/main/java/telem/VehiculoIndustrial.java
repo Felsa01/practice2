@@ -15,6 +15,14 @@ public class VehiculoIndustrial extends Vehiculo {
         this.numeroEjes = numeroEjes;
     }
 
+    //Ejercicio 3: En VehiculoIndustrial nos quedamos con capacidadCarga y numeroEjes, que son los atributos propios de VehiculoIndustrial.
+    public VehiculoIndustrial(String jsonString) {
+        super(jsonString);
+        JSONObject json = new JSONObject(jsonString);
+        this.capacidadCarga = json.getInt("capacidadCarga");
+        this.numeroEjes = json.getInt("numeroEjes");
+    }
+
     public int getCapacidadCarga() {
         return capacidadCarga;
     }

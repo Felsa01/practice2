@@ -22,7 +22,16 @@ public abstract class Vehiculo {
         this.annio = annio;
     }
 
-    
+    //Ejercicio 3: Añadimos un nuevo constructor que recibe un JSON con los atributos comunes de un vehículo.
+    // Aquí nos quedamos con matricula, categoria y annio, que son los atributos comunes a todos los vehículos.
+    public Vehiculo(String jsonString) {
+        JSONObject json = new JSONObject(jsonString);
+        this.matricula = json.getString("matricula");
+        this.categoria = Categoria.valueOf(json.getString("categoria"));
+        this.annio = json.getInt("annio");
+        this.disponible = json.getBoolean("disponible");
+    }
+
     /**
     * En serialización/deserialización: para obtener el tipo de
     * vehículo (clase) del objeto.
